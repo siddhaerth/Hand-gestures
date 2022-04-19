@@ -1,5 +1,4 @@
 prediction_1="";
-prediction_2="";
 
 
 Webcam.set({
@@ -32,4 +31,29 @@ function speak(){
     speak_data_2 = "And your second prediction is "+ prediction_2;
     var utterThis = new SpeechSynthesisUtterance(speak_data_1+speak_data_2);
     synth.speak(utterThis);
+}
+function check() {
+    img = document.getElementById('captured_image');
+    classifier.classify(img, gotResult);
+}
+
+function gotResult(error, results) {
+    if (error) {
+        console.error(error);
+    } else {
+        console.log(results);
+        document.getElementById("result_emotion_name").innerHTML = results[0].label;
+
+        prediction_1 = results[0].label;
+        speak();
+        if (results[0].label == "amazing") {
+            document.getElementById("update_emoji").innerHTML = "&#128076;";
+        }
+        if (results[0].label == "best") {
+            document.getElementById("update_emoji").innerHTML = "&#128077;";
+        }
+        if (results[0].label == "victory") {
+            document.getElementById("update_emoji").innerHTML = "&#9996;";
+        }
+    }
 }
